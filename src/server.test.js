@@ -27,4 +27,11 @@ describe("GET /users/:name", () => {
     await request(app).get("/users/abc").expect(500).expect("Content-Type", /json/).expect(fakeError);
     stub.restore();
   });
+
+  it("Returns the Appropriate Response When The User it Not Found", async () => {
+    const stub = sinon.stub(db, "getUserByName").resolves(null);
+
+    await request(app).get("/users/def").expect(404);
+    stub.restore();
+  });
 });
