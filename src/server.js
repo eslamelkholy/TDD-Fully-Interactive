@@ -7,9 +7,10 @@ app.get("/users/:name", async (req, res) => {
   const { name } = req.params;
   try {
     const user = await db.getUserByName(name);
-    res.json(user);
+    if (!user) return res.status(404).send();
+    return res.json(user);
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 });
 
