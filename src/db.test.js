@@ -1,20 +1,15 @@
-import { MongoClient } from "mongodb";
 import { expect } from "chai";
 import { getUserByName } from "./db";
 import DummyData from "./DummyData/DummyData";
+import { getDatabaseData, setDatabaseData, resetDatabase } from "./helpers/test-helpers";
 
 describe("Get User By Username", () => {
   it("Get The Correct User From Database Given a Username", async () => {
-    const client = await MongoClient.connect("mongodb://localhost:27017/TEST_DB", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    const db = client.db("TEST_DB");
-    await db.collection("users").insertMany(DummyData);
+    await setDatabaseData("users", DummyData);
+
     const actual = await getUserByName("eslam1");
-    const finalDBState = await db.collection("users").find().toArray();
-    await db.dropDatabase();
-    client.close();
+    const finalDBState = await getDatabaseData("users");
+    await resetDatabase();
 
     const expected = {
       id: 1,
