@@ -19,5 +19,11 @@ describe("GET /users/:name", () => {
     expect(stub.getCall(0).args[0]).to.equal("abc");
     stub.restore();
   });
-  it("Sends The Correct Response When There is an Error", async () => {});
+  it("Sends The Correct Response When There is an Error", async () => {
+    const fakeError = { message: "Something Went Wrong" };
+    const stub = sinon.stub(db, "getUserByName").throws(fakeError);
+
+    await request(app).get("/users/abc").expect(500).expect("Content-Type", /json/).expect(fakeError);
+    stub.restore();
+  });
 });
