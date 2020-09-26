@@ -6,11 +6,8 @@ import { getDatabaseData, setDatabaseData, resetDatabase } from "./helpers/test-
 describe("Get User By Username", () => {
   it("Get The Correct User From Database Given a Username", async () => {
     await setDatabaseData("users", DummyData);
-
     const actual = await getUserByName("eslam1");
     const finalDBState = await getDatabaseData("users");
-    await resetDatabase();
-
     const expected = {
       id: 1,
       name: "eslam1",
@@ -18,5 +15,9 @@ describe("Get User By Username", () => {
     };
     expect(actual).excludingEvery("_id").to.deep.equal(expected);
     expect(finalDBState).excludingEvery("_id").to.deep.equal(DummyData);
+
+    afterEach("Reset The Database", async () => {
+      await resetDatabase();
+    });
   });
 });
