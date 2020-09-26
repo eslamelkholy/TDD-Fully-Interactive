@@ -12,3 +12,7 @@ export const getUserByName = async (name) => {
   client.close();
   return result;
 };
+
+export default {
+  getUserByName,
+};
