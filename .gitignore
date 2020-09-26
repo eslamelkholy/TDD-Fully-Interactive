@@ -3,3 +3,5 @@
 node_modules/
 public
 node_modules
+coverage
+.nyc_output
