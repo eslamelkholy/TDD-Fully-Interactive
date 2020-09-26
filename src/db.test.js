@@ -20,4 +20,10 @@ describe("Get User By Username", () => {
       await resetDatabase();
     });
   });
+
+  it("Returns Null When the User is not Found", async () => {
+    await setDatabaseData("users", DummyData);
+    const actual = await getUserByName("def");
+    expect(actual).to.be.null;
+  });
 });
